@@ -1,16 +1,39 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Navbar } from '../components'
+import { Navbar, Slider } from '../components'
 import styled from 'styled-components'
 import { FaPlay } from 'react-icons/fa'
 import { AiOutlineInfoCircle } from 'react-icons/ai'
+import axios from 'axios'
+import { APIKEY } from '../utils/api'
 const HomePage = () => {
 	const [isScrolled, setIsScrolled] = useState(false)
+	const [trendingMovies, setTrendingMovies] = useState(null)
+	const [trendingTv, setTrendingTv] = useState(null)
 	const navigate = useNavigate()
 	window.onscroll = () => {
 		setIsScrolled(window.pageYOffset === 0 ? false : true)
 		return () => (window.onscroll = null)
 	}
+	useEffect(() => {
+		getTrendingMovies()
+		getTrendingTv()
+	}, [])
+
+	const getTrendingMovies = async () => {
+		await axios
+			.get(`/trending/movie/week?api_key=${APIKEY}`)
+			.then((response) => setTrendingMovies(response.data.results))
+			.catch((error) => console.log(error))
+	}
+	const getTrendingTv = async () => {
+		await axios
+			.get(`/trending/tv/week?api_key=${APIKEY}`)
+			.then((response) => setTrendingTv(response.data.results))
+			.catch((error) => console.log(error))
+	}
+
+	console.log(trendingTv)
 
 	return (
 		<Container>
@@ -42,6 +65,7 @@ const HomePage = () => {
 					</div>
 				</div>
 			</div>
+			<Slider trendingMovies={trendingMovies} trendingTv={trendingTv} />
 		</Container>
 	)
 }

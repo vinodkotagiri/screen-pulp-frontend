@@ -32,3 +32,11 @@ body::-webkit-scrollbar {
 .a-center {
 	align-items: center;
 }
+.wrap {
+	flex-wrap: wrap;
+}
+
+.gap-2 {
+	gap: 1rem;
+	column-gap: 1rem;
+}
