@@ -1,16 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
 import logo from '../assets/logo.png'
-import { Link } from 'react-router-dom'
-const Header = () => {
+import { useNavigate } from 'react-router-dom'
+const Header = ({ title, to }) => {
+	const navigate = useNavigate()
 	return (
 		<Container className='flex a-center j-between'>
 			<div className='logo'>
 				<img src={logo} alt='logo' />
 			</div>
-			<Link to='/login'>
-				<button>Sign in</button>
-			</Link>
+			<button onClick={() => navigate(`/${to}`)}>{title}</button>
 		</Container>
 	)
 }

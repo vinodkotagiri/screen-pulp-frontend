@@ -13,7 +13,6 @@ const RegisterPage = () => {
 			navigate(`/register/password/${email}`)
 		}
 	}
-
 	useEffect(() => {
 		if (
 			email.match(
@@ -23,12 +22,11 @@ const RegisterPage = () => {
 			setIsEmailValid(true)
 		else setIsEmailValid(false)
 	}, [email])
-
 	return (
 		<Container>
 			<BackgroundImage />
 			<div className='content'>
-				<Header />
+				<Header title={'Sign In'} to='login' />
 				<div className='body flex column a-center j-center'>
 					<div className='text flex column '>
 						<p className='p0'>Unlimited movies, Tv shows and more.</p>
