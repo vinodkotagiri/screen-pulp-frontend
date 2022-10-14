@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Navbar } from '../components'
 import styled from 'styled-components'
 import { FaPlay } from 'react-icons/fa'
 import { AiOutlineInfoCircle } from 'react-icons/ai'
 const HomePage = () => {
 	const [isScrolled, setIsScrolled] = useState(false)
+	const navigate = useNavigate()
 	window.onscroll = () => {
 		setIsScrolled(window.pageYOffset === 0 ? false : true)
 		return () => (window.onscroll = null)
@@ -27,7 +29,9 @@ const HomePage = () => {
 						/>
 					</div>
 					<div className='buttons flex'>
-						<button className='flex a-center j-center'>
+						<button
+							className='flex a-center j-center'
+							onClick={() => navigate('/player')}>
 							<FaPlay />
 							&nbsp;Play
 						</button>
