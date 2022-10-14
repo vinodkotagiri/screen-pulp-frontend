@@ -1,8 +1,29 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { BackgroundImage, Header } from '../components'
+import { useNavigate } from 'react-router-dom'
 
 const RegisterPage = () => {
+	const [email, setEmail] = useState('')
+	const [isEmailValid, setIsEmailValid] = useState(false)
+	const navigate = useNavigate()
+	const handleSubmit = (e) => {
+		if (isEmailValid) {
+			e.preventDefault()
+			navigate(`/register/password/${email}`)
+		}
+	}
+
+	useEffect(() => {
+		if (
+			email.match(
+				/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+			)
+		)
+			setIsEmailValid(true)
+		else setIsEmailValid(false)
+	}, [email])
+
 	return (
 		<Container>
 			<BackgroundImage />
@@ -20,15 +41,21 @@ const RegisterPage = () => {
 							placeholder='Enter your email'
 							name='email'
 							autoComplete='off'
+							value={email}
+							onChange={(e) => setEmail(e.target.value)}
 						/>
-						<input
-							type='password'
-							placeholder='Enter your password'
-							name='password'
-							autoComplete='off'
-						/>
-						<button>Get Started</button>
+						<button onClick={handleSubmit}>Get Started</button>
 					</div>
+					{!isEmailValid && (
+						<p
+							style={{
+								color: 'red',
+								fontSize: '1.2rem',
+								fontWeight: 300,
+							}}>
+							Please enter a valid email!
+						</p>
+					)}
 				</div>
 			</div>
 		</Container>
@@ -76,26 +103,24 @@ const Container = styled.div`
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		flex-direction: column;
-		gap: 1rem;
+		flex-direction: row;
+		row-gap: 0;
 		margin-top: 2rem;
 		input {
 			text-align: center;
 			color: #000;
 			border: none;
-			border-radius: 0.4rem;
 			height: 2.5rem;
 			padding: 1.5rem;
 			width: 30rem;
 		}
 		button {
-			padding: 0.5rem 2rem;
+			padding: 0.1rem 2rem;
 			background-color: #ee4d2e;
 			border: none;
 			color: white;
 			width: 15rem;
 			height: 3rem;
-			border-radius: 0.4rem;
 			font-size: 1.05rem;
 			font-weight: bolder;
 		}
