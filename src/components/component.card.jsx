@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 import { IoPlayCircleSharp } from 'react-icons/io5'
@@ -6,30 +6,12 @@ import { RiThumbUpFill, RiThumbDownFill } from 'react-icons/ri'
 import { BsCheck } from 'react-icons/bs'
 import { AiOutlinePlus } from 'react-icons/ai'
 import { BiChevronDown } from 'react-icons/bi'
-import axios from 'axios'
-import { APIKEY } from '../utils/api'
+import { MoviesContext } from '../context/movies'
 const Card = ({ movie, index }) => {
 	const navigate = useNavigate()
 	const [isHovered, setisHovered] = useState(false)
 	const [isLiked, setisLiked] = useState(false)
-	const [genres, setGenres] = useState([])
-
-	const getGenres = async () => {
-		await axios
-			.get(`genre/movie/list?api_key=${APIKEY}`)
-			.then((response) => setGenres(response.data.genres))
-			.catch((error) => console.log(error))
-	}
-
-	useEffect(() => {
-		getGenres()
-	}, [])
-
-	let genreData = {}
-	genres.forEach((g) => {
-		genreData[g.id] = g.name
-	})
-
+	const [state] = useContext(MoviesContext)
 	return (
 		<Container
 			onMouseEnter={() => setisHovered(true)}
@@ -78,7 +60,7 @@ const Card = ({ movie, index }) => {
 					<div className='genres flex'>
 						<ul className='flex'>
 							{movie.genre_ids.map((id) => (
-								<li key={id}>{genreData[id]}</li>
+								<li key={id}>{state.genre[id]}</li>
 							))}
 						</ul>
 					</div>

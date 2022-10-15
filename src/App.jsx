@@ -6,6 +6,8 @@ import {
 	HomePage,
 	PasswordPage,
 	PlayerPage,
+	MoviesPage,
+	TvShowsPage,
 } from './pages'
 const App = () => {
 	return (
@@ -15,6 +17,8 @@ const App = () => {
 			<Route path='/register' element={<RegisterPage />} />
 			<Route path='/register/password/:email' element={<PasswordPage />} />
 			<Route path='/player' element={<PlayerPage />} />
+			<Route path='/movies' element={<MoviesPage />} />
+			<Route path='/tv-shows' element={<TvShowsPage />} />
 		</Routes>
 	)
 }

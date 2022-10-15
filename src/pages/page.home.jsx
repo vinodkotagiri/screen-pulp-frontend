@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Navbar, Slider } from '../components'
 import styled from 'styled-components'
@@ -6,35 +6,99 @@ import { FaPlay } from 'react-icons/fa'
 import { AiOutlineInfoCircle } from 'react-icons/ai'
 import axios from 'axios'
 import { APIKEY } from '../utils/api'
+import { MoviesContext } from '../context/movies'
 const HomePage = () => {
 	const [isScrolled, setIsScrolled] = useState(false)
-	const [trendingMovies, setTrendingMovies] = useState(null)
-	const [trendingTv, setTrendingTv] = useState(null)
 	const navigate = useNavigate()
 	window.onscroll = () => {
 		setIsScrolled(window.pageYOffset === 0 ? false : true)
 		return () => (window.onscroll = null)
 	}
-	useEffect(() => {
-		getTrendingMovies()
-		getTrendingTv()
-	}, [])
 
+	// =========================================================================
+	// UPDATE GLOBAL STATE
+	// =========================================================================
+	const [state, dispatch] = useContext(MoviesContext)
+
+	// -----------------------------------------------------------------------------
+	// GET GENRE
+	// -----------------------------------------------------------------------------
+	const getGenres = async () => {
+		await axios
+			.get(`genre/movie/list?api_key=${APIKEY}`)
+			.then((response) => {
+				let genreData = {}
+				response?.data?.genres?.map(
+					(genre) => (genreData[genre.id] = genre.name)
+				)
+				dispatch({ type: 'SET_GENRE', payload: genreData })
+			})
+			.catch((error) => console.log(error))
+	}
+	// -------------------------------------------------------------------------
+	// GET TRENDING MOVIES
+	// -------------------------------------------------------------------------
 	const getTrendingMovies = async () => {
 		await axios
 			.get(`/trending/movie/week?api_key=${APIKEY}`)
-			.then((response) => setTrendingMovies(response.data.results))
+			.then((response) =>
+				dispatch({
+					type: 'SET_TRENDING',
+					payload: response.data.results,
+				})
+			)
 			.catch((error) => console.log(error))
 	}
+	// -----------------------------------------------------------------------------
+	// GET TRENDING TV
+	// -----------------------------------------------------------------------------
 	const getTrendingTv = async () => {
 		await axios
 			.get(`/trending/tv/week?api_key=${APIKEY}`)
-			.then((response) => setTrendingTv(response.data.results))
+			.then((response) =>
+				dispatch({
+					type: 'SET_TRENDING_TV',
+					payload: response.data.results,
+				})
+			)
 			.catch((error) => console.log(error))
 	}
 
-	console.log(trendingTv)
-
+	// -------------------------------------------------------------------------
+	// GET NOW PLAYING MOVIES
+	// -------------------------------------------------------------------------
+	const getNowPlaying = async () => {
+		await axios
+			.get(`/movie/now_playing?api_key=${APIKEY}`)
+			.then((response) => {
+				dispatch({
+					type: 'SET_NOW_PLAYING',
+					payload: response.data.results,
+				})
+			})
+			.catch((error) => console.log(error))
+	}
+	// -------------------------------------------------------------------------
+	// GET POPULAT MOVIES
+	// -------------------------------------------------------------------------
+	const getPopularMovies = async () => {
+		await axios
+			.get(`/movie/popular?api_key=${APIKEY}`)
+			.then((response) =>
+				dispatch({
+					type: 'SET_POPULAR',
+					payload: response.data.results,
+				})
+			)
+			.catch((error) => console.log(error))
+	}
+	useEffect(() => {
+		getGenres()
+		getTrendingMovies()
+		getTrendingTv()
+		getNowPlaying()
+		getPopularMovies()
+	}, [])
 	return (
 		<Container>
 			<Navbar isScrolled={isScrolled} />
@@ -65,7 +129,7 @@ const HomePage = () => {
 					</div>
 				</div>
 			</div>
-			<Slider trendingMovies={trendingMovies} trendingTv={trendingTv} />
+			<Slider trendingMovies={state.trending} trendingTv={state.trendingTv} />
 		</Container>
 	)
 }
