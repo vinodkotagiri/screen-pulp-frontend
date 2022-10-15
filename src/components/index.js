@@ -1,7 +1,0 @@
-export { default as Header } from './component.header'
-export { default as BackgroundImage } from './component.background-image'
-export { default as Loader } from './component.loader'
-export { default as Navbar } from './component.navbar'
-export { default as Card } from './component.card'
-export { default as CardSlider } from './component.cardslider'
-export { default as Slider } from './component.slider'

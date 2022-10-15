@@ -1,7 +1,0 @@
-export { default as HomePage } from './page.home'
-export { default as LoginPage } from './page.login'
-export { default as RegisterPage } from './page.register'
-export { default as PasswordPage } from './page.password'
-export { default as PlayerPage } from './page.player'
-export { default as MoviesPage } from './page.movies'
-export { default as TvShowsPage } from './page.tvshows'
