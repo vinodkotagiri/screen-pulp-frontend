@@ -1,4 +1,4 @@
-.signin-form {
+.auth-form {
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -10,7 +10,7 @@
 	border-radius: 0.75rem;
 }
 
-.signin-form > form {
+.auth-form > form {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -18,7 +18,7 @@
 	gap: 1rem;
 }
 
-.signin-form > form > input {
+.auth-form > form > input {
 	padding: 1.25rem;
 	outline-width: 0;
 	height: 1.875rem;
@@ -26,7 +26,7 @@
 	border: none;
 	border-radius: 0.3rem;
 }
-.signin-form > form > button {
+.auth-form > form > button {
 	outline-width: 0;
 	width: 75%;
 	border: none;

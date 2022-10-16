@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import './styles.login.css'
+import './styles.auth.css'
 import { logo, backdropHome } from '../../assets'
-import { SigninForm } from '../../components'
-const LoginPage = () => {
+import { Authenticate } from '../../components'
+const AuthPage = () => {
 	const [signin, setSignin] = useState(false)
 	return (
 		<div className='login' style={{ backgroundImage: `url(${backdropHome})` }}>
@@ -35,9 +35,9 @@ const LoginPage = () => {
 					</>
 				)}
 			</div>
-			{signin && <SigninForm />}
+			{signin && <Authenticate />}
 		</div>
 	)
 }
 
-export default LoginPage
+export default AuthPage

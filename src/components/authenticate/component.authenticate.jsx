@@ -1,15 +1,16 @@
-import React, { useRef, useState } from 'react'
-import './styles.signinform.css'
+import React, { useRef } from 'react'
+import './styles.authenticate.css'
 import { firebaseAuth } from '../../firebaseConfig'
 import {
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
 } from 'firebase/auth'
-const SigninForm = () => {
+import { useNavigate } from 'react-router-dom'
+const Authenticate = () => {
 	const emailRef = useRef(null)
-	const passwordRef = useState(null)
-
-	const signIn = async (e) => {
+	const passwordRef = useRef(null)
+	const navigate = useNavigate()
+	const login = async (e) => {
 		e.preventDefault()
 		await signInWithEmailAndPassword(
 			firebaseAuth,
@@ -17,7 +18,7 @@ const SigninForm = () => {
 			passwordRef.current.value
 		)
 			.then((authUser) => {
-				console.log(authUser)
+				navigate('/')
 			})
 			.catch((error) => alert(error.message))
 	}
@@ -35,18 +36,18 @@ const SigninForm = () => {
 	}
 
 	return (
-		<div className='signin-form'>
+		<div className='auth-form'>
 			<form>
 				<h1>Signin</h1>
 				<input ref={emailRef} type='email' placeholder='Email' />
 				<input ref={passwordRef} type='password' placeholder='Password' />
-				<button type='submit' onClick={signIn}>
-					Signin In
+				<button type='submit' onClick={login}>
+					Login
 				</button>
 				<h5>
 					<span className='gray-text'>New to Screen Pulp?</span>&nbsp;{' '}
 					<span className='link-text' onClick={register}>
-						Signup now
+						Register
 					</span>
 				</h5>
 			</form>
@@ -54,4 +55,4 @@ const SigninForm = () => {
 	)
 }
 
-export default SigninForm
+export default Authenticate
